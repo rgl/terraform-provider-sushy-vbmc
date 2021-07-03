@@ -59,6 +59,7 @@ func Create(domainId string, address string, port int) (*Vbmc, error) {
 	}
 	_, err = docker(
 		"run",
+		"--rm",
 		"--name",
 		getContainerName(domainId),
 		"--detach",
