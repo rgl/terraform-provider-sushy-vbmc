@@ -73,6 +73,17 @@ redfish_system_url="$redfish_base_url$(http "$redfish_base_url/redfish/v1/System
 http "$redfish_system_url"
 ```
 
+Access the Redfish endpoint with [redfishtool](https://github.com/DMTF/Redfishtool):
+
+```bash
+sudo apt-get install python3-pip
+python3 -m pip install redfishtool
+redfish_rhost="$(terraform output --raw vbmc_address):$(terraform output --raw vbmc_port)"
+redfishtool -r $redfish_rhost --Secure Never Systems examples
+redfishtool -r $redfish_rhost --Secure Never Systems list #-vvv
+redfishtool -r $redfish_rhost --Secure Never Systems get #-vvv
+```
+
 The Redfish endpoint can also be [used from a Go application with gofish](https://github.com/stmcginnis/gofish), e.g.:
 
 ```go
