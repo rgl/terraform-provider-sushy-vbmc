@@ -101,15 +101,16 @@ func main() {
 
 	c, err := gofish.ConnectDefault("http://localhost:8000")
 	if err != nil {
-		panic(err)
+		log.Fatalf("ERROR: Failed to connect to the redfish endpoint: %v", err)
 	}
 
 	systems, err := c.Service.Systems()
 	if err != nil {
-		panic(err)
+		log.Fatalf("ERROR: Failed to enumerate systems: %v", err)
 	}
 
 	for _, system := range systems {
+		log.Printf("System ODataID: %s", system.ODataID)
 		log.Printf("System UUID: %s", system.UUID)
 		log.Printf("System Name: %s", system.Name)
 		log.Printf("System PowerState: %s", system.PowerState)
@@ -126,6 +127,13 @@ func main() {
 			//     `systemd: Stopped target Default.`.
 			log.Printf("Gracefully shutting down the system...")
 			system.Reset(redfish.GracefulShutdownResetType)
+			for {
+				system, err = redfish.GetComputerSystem(c, system.ODataID)
+				if err == nil && system.PowerState == redfish.OffPowerState {
+					break
+				}
+				time.Sleep(1 * time.Second)
+			}
 		} else {
 			// toggle the boot order.
 			bootTarget := system.Boot.BootSourceOverrideTarget
@@ -136,11 +144,21 @@ func main() {
 			}
 			log.Printf("Setting the boot order to %s...", bootTarget)
 			system.SetBoot(redfish.Boot{
+				// NB sushy-vbmc-emulator does not support Once.
+				// see https://storyboard.openstack.org/#!/story/2005368#comment-175052
+				BootSourceOverrideEnabled: redfish.OnceBootSourceOverrideEnabled,
 				BootSourceOverrideTarget: bootTarget,
 			})
 			// power it on.
 			log.Printf("Powering on the system...")
 			system.Reset(redfish.OnResetType)
+			for {
+				system, err = redfish.GetComputerSystem(c, system.ODataID)
+				if err == nil && system.PowerState == redfish.OnPowerState {
+					break
+				}
+				time.Sleep(1 * time.Second)
+			}
 		}
 	}
 }
