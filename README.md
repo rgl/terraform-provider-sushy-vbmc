@@ -64,9 +64,10 @@ Show information about the vbmc:
 docker ps # there should be a container named like sushy-vbmc-emulator-fe548971-8df0-4c61-a1e0-e29f884cccf7
 ```
 
-Access the Redfish endpoint with HTTPie:
+Access the Redfish endpoint with [HTTPie](https://httpie.io/):
 
 ```bash
+sudo apt-get install httpie
 redfish_base_url="$(terraform output --raw vbmc_address):$(terraform output --raw vbmc_port)"
 redfish_system_url="$redfish_base_url$(http "$redfish_base_url/redfish/v1/Systems" | jq -r '.Members[]."@odata.id"')"
 http "$redfish_system_url"
