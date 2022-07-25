@@ -21,7 +21,7 @@ build: sushy-vbmc-emulator
 	go build -o ${BINARY}
 
 sushy-vbmc-emulator:
-	docker build -t ruilopes/sushy-vbmc-emulator sushy-vbmc-emulator
+	DOCKER_BUILDKIT=1 docker build -t ruilopes/sushy-vbmc-emulator sushy-vbmc-emulator
 
 install: build
 	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}

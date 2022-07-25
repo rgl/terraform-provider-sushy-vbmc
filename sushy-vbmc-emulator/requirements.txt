@@ -1,1 +1,1 @@
-sushy-tools==0.17.0
+sushy-tools==0.19.0

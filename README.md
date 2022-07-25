@@ -1,6 +1,8 @@
 # About
 
-[![build](https://github.com/rgl/terraform-provider-sushy-vbmc/actions/workflows/build.yml/badge.svg)](https://github.com/rgl/terraform-provider-sushy-vbmc/actions/workflows/build.yml) [![terraform provider](https://img.shields.io/badge/terraform%20provider-rgl%2Fsushy--vbmc-blue)](https://registry.terraform.io/providers/rgl/sushy-vbmc)
+[![build](https://github.com/rgl/terraform-provider-sushy-vbmc/actions/workflows/build.yml/badge.svg)](https://github.com/rgl/terraform-provider-sushy-vbmc/actions/workflows/build.yml)
+[![terraform provider](https://img.shields.io/badge/terraform%20provider-rgl%2Fsushy--vbmc-blue)](https://registry.terraform.io/providers/rgl/sushy-vbmc)
+[![docker image](https://img.shields.io/docker/v/ruilopes/sushy-vbmc-emulator?color=blue&label=docker%20image%20ruilopes%2Fsushy-vbmc-emulator&sort=semver)](https://hub.docker.com/r/ruilopes/sushy-vbmc-emulator/tags)
 
 This manages a [libvirt_domain](https://github.com/dmacvicar/terraform-provider-libvirt) [Sushy Redfish Virtual BMC](https://docs.openstack.org/sushy/latest/) through the [`vbmc_vbmc` resource](https://github.com/rgl/terraform-provider-sushy-vbmc/blob/main/docs/resources/vbmc_vbmc.md).
 
