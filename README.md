@@ -8,6 +8,8 @@ For an IPMI based provider see the [rgl/terraform-provider-vbmc](https://github.
 
 ## Usage (Ubuntu 20.04 host)
 
+Install docker, vagrant, vagrant-libvirt, and the [Ubuntu Base Box](https://github.com/rgl/ubuntu-vagrant).
+
 Install Terraform:
 
 ```bash
@@ -15,20 +17,6 @@ wget https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.
 unzip terraform_1.0.1_linux_amd64.zip
 sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
-```
-
-Install docker:
-
-```bash
-# see https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
-docker_version='20.10.7'
-sudo apt-get install -y apt-transport-https software-properties-common
-wget -qO- https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-cache madison docker-ce
-docker_apt_version="$(apt-cache madison docker-ce | awk "/$docker_version~/{print \$3}")"
-sudo apt-get install -y "docker-ce=$docker_apt_version" "docker-ce-cli=$docker_apt_version" containerd.io
 ```
 
 **NB** This provider will start the [ruilopes/sushy-vbmc-emulator](https://hub.docker.com/repository/docker/ruilopes/sushy-vbmc-emulator) image to host the [Sushy Redfish Virtual BMC](https://docs.openstack.org/sushy/latest/).
