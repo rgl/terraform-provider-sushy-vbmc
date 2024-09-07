@@ -75,6 +75,8 @@ redfish_rhost="$(terraform output --raw vbmc_address):$(terraform output --raw v
 redfishtool --rhost $redfish_rhost --Secure Never Systems examples
 redfishtool --rhost $redfish_rhost --Secure Never Systems list #-vvvvv -sssss
 redfishtool --rhost $redfish_rhost --Secure Never Systems get #-vvvvv -sssss
+redfishtool --rhost $redfish_rhost --Secure Never Systems reset GracefulShutdown
+redfishtool --rhost $redfish_rhost --Secure Never Systems reset On
 ```
 
 The Redfish endpoint can also be [used from a Go application with gofish](https://github.com/stmcginnis/gofish), e.g.:
