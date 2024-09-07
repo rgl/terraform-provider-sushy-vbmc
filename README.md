@@ -8,15 +8,15 @@ This manages a [libvirt_domain](https://github.com/dmacvicar/terraform-provider-
 
 For an IPMI based provider see the [rgl/terraform-provider-vbmc](https://github.com/rgl/terraform-provider-vbmc) source repository.
 
-## Usage (Ubuntu 20.04 host)
+## Usage (Ubuntu 22.04 host)
 
 Install docker, vagrant, vagrant-libvirt, and the [Ubuntu Base Box](https://github.com/rgl/ubuntu-vagrant).
 
 Install Terraform:
 
 ```bash
-wget https://releases.hashicorp.com/terraform/1.2.5/terraform_1.2.5_linux_amd64.zip
-unzip terraform_1.2.5_linux_amd64.zip
+wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip
+unzip terraform_1.9.5_linux_amd64.zip
 sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
 ```
@@ -67,11 +67,14 @@ Access the Redfish endpoint with [redfishtool](https://github.com/DMTF/Redfishto
 
 ```bash
 sudo apt-get install python3-pip
-python3 -m pip install redfishtool
+# see https://github.com/DMTF/Redfishtool
+# renovate: datasource=github-releases depName=DMTF/Redfishtool
+redfishtool_version='1.1.8'
+python3 -m pip install "redfishtool==$redfishtool_version"
 redfish_rhost="$(terraform output --raw vbmc_address):$(terraform output --raw vbmc_port)"
-redfishtool -r $redfish_rhost --Secure Never Systems examples
-redfishtool -r $redfish_rhost --Secure Never Systems list #-vvv
-redfishtool -r $redfish_rhost --Secure Never Systems get #-vvv
+redfishtool --rhost $redfish_rhost --Secure Never Systems examples
+redfishtool --rhost $redfish_rhost --Secure Never Systems list #-vvvvv -sssss
+redfishtool --rhost $redfish_rhost --Secure Never Systems get #-vvvvv -sssss
 ```
 
 The Redfish endpoint can also be [used from a Go application with gofish](https://github.com/stmcginnis/gofish), e.g.:
