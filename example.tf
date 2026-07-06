@@ -1,17 +1,17 @@
 # see https://github.com/hashicorp/terraform
 terraform {
-  required_version = "1.9.5"
+  required_version = "1.15.7"
   required_providers {
     # see https://registry.terraform.io/providers/hashicorp/random
     random = {
-      source = "hashicorp/random"
-      version = "3.6.2"
+      source  = "hashicorp/random"
+      version = "3.9.0"
     }
     # see https://registry.terraform.io/providers/dmacvicar/libvirt
     # see https://github.com/dmacvicar/terraform-provider-libvirt
     libvirt = {
-      source = "dmacvicar/libvirt"
-      version = "0.7.6"
+      source  = "dmacvicar/libvirt"
+      version = "0.8.3"
     }
     # see https://registry.terraform.io/providers/rgl/sushy-vbmc
     # see https://github.com/rgl/terraform-provider-sushy-vbmc
@@ -44,48 +44,50 @@ output "vbmc_address" {
 
 resource "vbmc_vbmc" "example" {
   domain_id = libvirt_domain.example.id
-  port = 8000 # NB when port is unset, the port will be automatically allocated.
+  port      = 8000 # NB when port is unset, the port will be automatically allocated.
 }
 
-# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.7.6/website/docs/r/domain.html.markdown
+# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.8.3/website/docs/r/domain.html.markdown
 resource "libvirt_domain" "example" {
-  name = var.prefix
+  name     = var.prefix
+  machine  = "q35"
+  firmware = "/usr/share/OVMF/OVMF_CODE_4M.fd"
   cpu {
     mode = "host-passthrough"
   }
-  vcpu = 2
-  memory = 1024
+  vcpu       = 2
+  memory     = 1024
   qemu_agent = true
   disk {
     volume_id = libvirt_volume.example_root.id
-    scsi = true
+    scsi      = true
   }
   network_interface {
-    network_id = libvirt_network.example.id
+    network_id     = libvirt_network.example.id
     wait_for_lease = true
-    addresses = ["10.17.3.2"]
+    addresses      = ["10.17.3.2"]
   }
 }
 
 # this uses the vagrant ubuntu image imported from https://github.com/rgl/ubuntu-vagrant.
-# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.7.6/website/docs/r/volume.html.markdown
+# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.8.3/website/docs/r/volume.html.markdown
 resource "libvirt_volume" "example_root" {
-  name = "${var.prefix}_root.img"
-  base_volume_name = "ubuntu-22.04-amd64_vagrant_box_image_0.0.0_box_0.img"
-  format = "qcow2"
+  name             = "${var.prefix}_root.img"
+  base_volume_name = "ubuntu-24.04-uefi-amd64_vagrant_box_image_0.0.0_box_0.img"
+  format           = "qcow2"
 }
 
-# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.7.6/website/docs/r/network.markdown
+# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.8.3/website/docs/r/network.markdown
 resource "libvirt_network" "example" {
-  name = var.prefix
-  mode = "nat"
-  domain = "example.test"
+  name      = var.prefix
+  mode      = "nat"
+  domain    = "example.test"
   addresses = ["10.17.3.0/24"]
   dhcp {
     enabled = false
   }
   dns {
-    enabled = true
+    enabled    = true
     local_only = false
   }
 }

@@ -1,1 +1,3 @@
-sushy-tools==1.3.0
+# see https://pypi.org/project/sushy-tools/
+# see https://opendev.org/openstack/sushy-tools
+sushy-tools==2.2.0
