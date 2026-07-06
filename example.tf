@@ -17,7 +17,7 @@ terraform {
     # see https://github.com/rgl/terraform-provider-sushy-vbmc
     vbmc = {
       source = "rgl/sushy-vbmc"
-      version = "0.3.0"
+      version = "0.4.0"
     }
   }
 }
