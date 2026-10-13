@@ -15,7 +15,7 @@ This is normally used as:
 
 ```terraform
 resource "vbmc_vbmc" "example" {
-  domain_id = libvirt_domain.example.id
+  domain_id = libvirt_domain.example.uuid
   port = 8000 # NB when port is unset, the port will be automatically allocated.
 }
 
@@ -33,7 +33,7 @@ For a complete example see [rgl/terraform-provider-sushy-vbmc](https://github.co
 
 ### Required
 
-- **domain_id** (String) The libvirt domain id. This should reference an existing `libvirt_domain` resource.
+- **domain_id** (String) The libvirt domain uuid. This should reference an existing `libvirt_domain` resource.
 - **port** (Number) The vbmc port. When unset, the port will be automatically allocated.
 
 ### Optional

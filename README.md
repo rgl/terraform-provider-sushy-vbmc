@@ -46,6 +46,7 @@ Show information about the libvirt/qemu guest:
 ```bash
 virsh dumpxml terraform_vbmc_example
 virsh qemu-agent-command terraform_vbmc_example '{"execute":"guest-info"}' --pretty
+virsh qemu-agent-command terraform_vbmc_example '{"execute":"guest-network-get-interfaces"}' --pretty
 ```
 
 Show information about the vbmc:
