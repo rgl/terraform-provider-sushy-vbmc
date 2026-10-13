@@ -15,8 +15,8 @@ Install docker, vagrant, vagrant-libvirt, and the [Ubuntu Base Box](https://gith
 Install Terraform:
 
 ```bash
-wget https://releases.hashicorp.com/terraform/1.15.7/terraform_1.15.7_linux_amd64.zip
-unzip terraform_1.15.7_linux_amd64.zip
+wget https://releases.hashicorp.com/terraform/1.16.5/terraform_1.16.5_linux_amd64.zip
+unzip terraform_1.16.5_linux_amd64.zip
 sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
 ```
@@ -70,6 +70,7 @@ sudo apt-get install python3-pip python3-venv
 rm -rf tmp/venv
 python3 -m venv --system-site-packages tmp/venv
 export PATH="$PWD/tmp/venv/bin:$PATH"
+# see https://pypi.org/project/redfishtool/
 # see https://github.com/DMTF/Redfishtool
 # renovate: datasource=github-releases depName=DMTF/Redfishtool
 redfishtool_version='1.1.8'

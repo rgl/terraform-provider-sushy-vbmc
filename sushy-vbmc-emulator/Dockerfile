@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.25
+# syntax=docker/dockerfile:1.28
 FROM debian:13-slim
 # see https://opendev.org/openstack/sushy-tools/src/tag/2.2.0/requirements.txt
 RUN <<EOF

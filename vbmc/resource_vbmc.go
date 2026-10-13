@@ -34,7 +34,7 @@ func resourceVbmc() *schema.Resource {
 	}
 }
 
-func resourceVbmcCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceVbmcCreate(ctx context.Context, d *schema.ResourceData, m any) diag.Diagnostics {
 	domainId := d.Get("domain_id").(string)
 	address := d.Get("address").(string)
 	port := d.Get("port").(int)
@@ -49,7 +49,7 @@ func resourceVbmcCreate(ctx context.Context, d *schema.ResourceData, m interface
 	return resourceVbmcRead(ctx, d, m)
 }
 
-func resourceVbmcRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceVbmcRead(ctx context.Context, d *schema.ResourceData, m any) diag.Diagnostics {
 	vbmc, err := Get(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
@@ -64,7 +64,7 @@ func resourceVbmcRead(ctx context.Context, d *schema.ResourceData, m interface{}
 	return diag.Diagnostics{}
 }
 
-func resourceVbmcDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceVbmcDelete(ctx context.Context, d *schema.ResourceData, m any) diag.Diagnostics {
 	err := Delete(d.Id())
 	if err != nil {
 		return diag.FromErr(err)

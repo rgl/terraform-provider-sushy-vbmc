@@ -127,7 +127,7 @@ func Get(domainId string) (*Vbmc, error) {
 	for scanner.Scan() {
 		// e.g. 0.0.0.0:8000
 		line := scanner.Text()
-		parts := strings.SplitN(line, ":", -1)
+		parts := strings.Split(line, ":")
 		if len(parts) < 1 {
 			continue
 		}

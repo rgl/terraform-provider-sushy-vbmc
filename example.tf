@@ -1,11 +1,11 @@
 # see https://github.com/hashicorp/terraform
 terraform {
-  required_version = "1.15.7"
+  required_version = "1.16.5"
   required_providers {
     # see https://registry.terraform.io/providers/hashicorp/random
     random = {
       source  = "hashicorp/random"
-      version = "3.9.0"
+      version = "3.9.1"
     }
     # see https://registry.terraform.io/providers/dmacvicar/libvirt
     # see https://github.com/dmacvicar/terraform-provider-libvirt
