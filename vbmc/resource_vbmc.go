@@ -30,6 +30,12 @@ func resourceVbmc() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"snake_oil": {
+				Type:     schema.TypeBool,
+				Default:  false,
+				Optional: true,
+				ForceNew: true,
+			},
 		},
 	}
 }
@@ -38,8 +44,9 @@ func resourceVbmcCreate(ctx context.Context, d *schema.ResourceData, m any) diag
 	domainId := d.Get("domain_id").(string)
 	address := d.Get("address").(string)
 	port := d.Get("port").(int)
+	snakeOil := d.Get("snake_oil").(bool)
 
-	_, err := Create(domainId, address, port)
+	_, err := Create(domainId, address, port, snakeOil)
 	if err != nil {
 		return diag.FromErr(err)
 	}

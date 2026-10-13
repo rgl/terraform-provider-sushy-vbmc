@@ -52,12 +52,12 @@ func docker(args ...string) (string, error) {
 	return strings.TrimSpace(stdout.String()), nil
 }
 
-func Create(domainId string, address string, port int) (*Vbmc, error) {
+func Create(domainId string, address string, port int, snakeOil bool) (*Vbmc, error) {
 	err := Delete(domainId)
 	if err != nil {
 		return nil, err
 	}
-	_, err = docker(
+	args := []string{
 		"run",
 		"--rm",
 		"--name",
@@ -69,9 +69,17 @@ func Create(domainId string, address string, port int) (*Vbmc, error) {
 		"/var/run/libvirt/libvirt-sock-ro:/var/run/libvirt/libvirt-sock-ro",
 		"-e",
 		fmt.Sprintf("SUSHY_EMULATOR_ALLOWED_INSTANCES=%s", domainId),
+	}
+	if snakeOil {
+		args = append(args,
+			"-e",
+			"SUSHY_VBMC_HTTPS=snake-oil")
+	}
+	args = append(args,
 		"-p",
 		fmt.Sprintf("%s:%d:8000", address, port),
 		"ruilopes/sushy-vbmc-emulator")
+	_, err = docker(args...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +98,7 @@ func Delete(domainId string) error {
 	_, err := docker("kill", "--signal", "INT", containerName)
 	if err != nil {
 		if execError, ok := err.(*VbmcExecError); ok {
-			if strings.Contains(execError.Stderr, "No such container") {
+			if strings.Contains(execError.Stderr, "No such container") || strings.Contains(execError.Stderr, "is not running") {
 				return nil
 			}
 		}
@@ -99,7 +107,7 @@ func Delete(domainId string) error {
 	_, err = docker("wait", containerName)
 	if err != nil {
 		if execError, ok := err.(*VbmcExecError); ok {
-			if strings.Contains(execError.Stderr, "No such container") {
+			if strings.Contains(execError.Stderr, "No such container") || strings.Contains(execError.Stderr, "is not running") {
 				return nil
 			}
 		}
@@ -112,7 +120,7 @@ func Get(domainId string) (*Vbmc, error) {
 	stdout, err := docker("port", getContainerName(domainId), "8000")
 	if err != nil {
 		if execError, ok := err.(*VbmcExecError); ok {
-			if strings.Contains(execError.Stderr, "No such container") {
+			if strings.Contains(execError.Stderr, "No such container") || strings.Contains(execError.Stderr, "is not running") {
 				return nil, nil
 			}
 		}

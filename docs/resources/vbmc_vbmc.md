@@ -16,7 +16,8 @@ This is normally used as:
 ```terraform
 resource "vbmc_vbmc" "example" {
   domain_id = libvirt_domain.example.uuid
-  port = 8000 # NB when port is unset, the port will be automatically allocated.
+  port      = 8000 # NB when port is unset, the port will be automatically allocated.
+  snake_oil = true # NB when true, it generates a snake oil certificate and serve the endpoint using https.
 }
 
 resource "libvirt_domain" "example" {
@@ -39,3 +40,4 @@ For a complete example see [rgl/terraform-provider-sushy-vbmc](https://github.co
 ### Optional
 
 - **address** (String) The vbmc address. Defaults to `127.0.0.1`.
+- **snake_oil** (Boolean) Whether to generate a snake oil certificate and serve the endpoint using https. Defaults to `false`.
